@@ -20,11 +20,12 @@ public class Group {
     public Group() {
     }
 
-    public Group(String id, String name, Lecturer lecturer, Course course) {
+    public Group(String id, String name, Lecturer lecturer, Course course, ArrayList<Student> students) {
         this.id = id;
         this.name = name;
         this.lecturer = lecturer;
         this.course = course;
+        this.students = students;
     }
 
     public String getId() {

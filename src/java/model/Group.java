@@ -4,6 +4,8 @@
  */
 package model;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author duyng
@@ -13,6 +15,7 @@ public class Group {
     String name;
     Lecturer lecturer;
     Course course;
+    ArrayList<Student> students = new ArrayList<>();
 
     public Group() {
     }
@@ -54,6 +57,14 @@ public class Group {
 
     public void setCourse(Course course) {
         this.course = course;
+    }
+
+    public ArrayList<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(ArrayList<Student> students) {
+        this.students = students;
     }
 
     @Override

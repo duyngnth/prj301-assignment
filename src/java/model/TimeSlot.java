@@ -4,7 +4,7 @@
  */
 package model;
 
-import java.time.LocalTime;
+import java.sql.Time;
 
 /**
  *
@@ -12,13 +12,13 @@ import java.time.LocalTime;
  */
 public class TimeSlot {
     String id;
-    LocalTime start;
-    LocalTime end;
+    Time start;
+    Time end;
 
     public TimeSlot() {
     }
 
-    public TimeSlot(String id, LocalTime start, LocalTime end) {
+    public TimeSlot(String id, Time start, Time end) {
         this.id = id;
         this.start = start;
         this.end = end;
@@ -32,19 +32,19 @@ public class TimeSlot {
         this.id = id;
     }
 
-    public LocalTime getStart() {
+    public Time getStart() {
         return start;
     }
 
-    public void setStart(LocalTime start) {
+    public void setStart(Time start) {
         this.start = start;
     }
 
-    public LocalTime getEnd() {
+    public Time getEnd() {
         return end;
     }
 
-    public void setEnd(LocalTime end) {
+    public void setEnd(Time end) {
         this.end = end;
     }
 

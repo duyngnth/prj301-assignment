@@ -44,8 +44,7 @@ public class DBContextStudent extends DBContext<Student> {
                 String surname = rs.getNString("Surname");
                 String middleName = rs.getNString("MiddleName");
                 String givenName = rs.getNString("GivenName");
-                ArrayList<Group> groups = new ArrayList<>();
-                students.add(new Student(id, code, surname, middleName, givenName, groups));
+                students.add(new Student(id, code, surname, middleName, givenName));
             }
         } catch (SQLException e) {
         }

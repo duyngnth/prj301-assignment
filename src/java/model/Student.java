@@ -21,13 +21,12 @@ public class Student {
     public Student() {
     }
 
-    public Student(String id, String memberCode, String surname, String middleName, String givenName, ArrayList<Group> groups) {
+    public Student(String id, String memberCode, String surname, String middleName, String givenName) {
         this.id = id;
         this.memberCode = memberCode;
         this.surname = surname;
         this.middleName = middleName;
         this.givenName = givenName;
-        this.groups = groups;
     }
 
     public String getId() {

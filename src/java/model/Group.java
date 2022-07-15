@@ -11,7 +11,7 @@ import java.util.ArrayList;
  * @author duyng
  */
 public class Group {
-    String id;
+    int id;
     String name;
     Lecturer lecturer;
     Course course;
@@ -20,19 +20,18 @@ public class Group {
     public Group() {
     }
 
-    public Group(String id, String name, Lecturer lecturer, Course course, ArrayList<Student> students) {
+    public Group(int id, String name, Lecturer lecturer, Course course) {
         this.id = id;
         this.name = name;
         this.lecturer = lecturer;
         this.course = course;
-        this.students = students;
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 

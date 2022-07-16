@@ -21,6 +21,18 @@ public class Session {
     Group group;
     String semester;
 
+    public Session(int id, Lecturer lecturer, int sessionNumber, String sessionDescription, Room room, Date date, TimeSlot timeslot, Group group, String semester) {
+        this.id = id;
+        this.lecturer = lecturer;
+        this.sessionNumber = sessionNumber;
+        this.sessionDescription = sessionDescription;
+        this.room = room;
+        this.date = date;
+        this.timeslot = timeslot;
+        this.group = group;
+        this.semester = semester;
+    }
+    
     public int getId() {
         return id;
     }
@@ -92,4 +104,11 @@ public class Session {
     public void setSemester(String semester) {
         this.semester = semester;
     }
+
+    @Override
+    public String toString() {
+        return "Session{" + "id=" + id + ", lecturer=" + lecturer + ", sessionNumber=" + sessionNumber + ", sessionDescription=" + sessionDescription + ", room=" + room + ", date=" + date + ", timeslot=" + timeslot + ", group=" + group + ", semester=" + semester + '}';
+    }
+    
+    
 }

@@ -11,7 +11,6 @@ import java.util.ArrayList;
 import model.Course;
 import model.Group;
 import model.Lecturer;
-import model.Student;
 
 /**
  *
@@ -100,12 +99,5 @@ public class DBContextGroup extends DBContext<Group> {
     @Override
     public void delete(Group model) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    public static void main(String[] args) {
-        DBContextGroup dbg = new DBContextGroup();
-        ArrayList<Group> groups = dbg.listByStudent("HE164001");
-        for (Group g : groups)
-            System.out.println(g);
     }
 }

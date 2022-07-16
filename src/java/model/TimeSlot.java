@@ -50,6 +50,6 @@ public class TimeSlot {
 
     @Override
     public String toString() {
-        return id + ": " + start.toString() + " - " + end.toString();
+        return start.toString().substring(0, (start.toString().length() - 3)) + " - " + end.toString().substring(0, (start.toString().length() - 3));
     }
 }

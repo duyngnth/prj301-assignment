@@ -186,3 +186,13 @@ WHERE [StudentID] = 'HE161149')
 SELECT [GroupID], [GroupName], [LecturerID], [CourseID] FROM [Group]
 WHERE [GroupID] = (SELECT [GroupID] FROM [Session]
 WHERE [SessionID] = 4)
+
+SELECT [SessionID], [LecturerID], [SessionNumber],
+[SessionDescription], [RoomID], [Date], 
+[TimeSlotID], [GroupID], [Semester] FROM [Session]
+WHERE [LecturerID] = 'sonnt5'
+AND [Date] BETWEEN '2022-07-11' AND '2022-07-17'
+
+SELECT [DisplayName] FROM [Account]
+WHERE [Username] = 'sonnt5'
+AND [Password] = '123'

@@ -78,7 +78,17 @@
                                                 <c:if test="${ss.date.toString() eq sw.toString()}">
                                                     <c:if test="${ss.timeslot.id eq sl.id}">
                                                         <a href="SessionDetail?ID=${ss.id}" style="text-decoration: none">
-                                                            <div class="bg-green padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">${ss.group.course.id}</div>
+                                                            <div class="
+                                                                 <c:if test="${ss.date.before(today) || (ss.date.equals(today) && ss.timeslot.end.before(now))}">
+                                                                     bg-green
+                                                                 </c:if>
+                                                                 <c:if test="${ss.date.after(today) || (ss.date.equals(today) && ss.timeslot.start.after(now))}">
+                                                                     bg-gray
+                                                                 </c:if>
+                                                                 <c:if test="${ss.date.equals(today) && ss.timeslot.start.before(now) && ss.timeslot.end.after(now)}">
+                                                                     bg-yellow
+                                                                 </c:if>
+                                                                 padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">${ss.group.course.id}</div>
                                                         </a>
                                                         <div class="margin-10px-top font-size14 text-gray">${ss.group.name}</div>
                                                         <div class="font-size14">${ss.timeslot.toString()}</div>

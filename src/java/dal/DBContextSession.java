@@ -8,7 +8,6 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import model.Group;
 import model.Lecturer;
@@ -26,6 +25,27 @@ public class DBContextSession extends DBContext<Session> {
     @Override
     public ArrayList<Session> list() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public ArrayList<Session> listByGroup(int groupID) {
+        ArrayList<Session> sessions = new ArrayList<>();
+        connection = getConnection();
+        try {
+            String sql = "SELECT [SessionID], [SessionNumber], \n"
+                    + "[Date] FROM [Session] WHERE GroupID = ?";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, groupID);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Session session = new Session();
+                session.setId(rs.getInt("SessionID"));
+                session.setSessionNumber(rs.getInt("SessionNumber"));
+                session.setDate(rs.getDate("Date"));
+                sessions.add(session);
+            }
+        } catch (SQLException e) {
+        }
+        return sessions;
     }
 
     public ArrayList<Session> list(Week week, String lecturerID) {
@@ -48,8 +68,9 @@ public class DBContextSession extends DBContext<Session> {
                 Lecturer lecturer = dbl.get(rs.getString("LecturerID"));
                 int number = rs.getInt("SessionNumber");
                 String description = rs.getString("SessionDescription");
-                if (description == null)
+                if (description == null) {
                     description = "";
+                }
                 DBContextRoom dbr = new DBContextRoom();
                 Room room = dbr.get(rs.getString("RoomID"));
                 Date date = rs.getDate("Date");
@@ -66,7 +87,7 @@ public class DBContextSession extends DBContext<Session> {
         }
         return sessions;
     }
-    
+
     public ArrayList<Session> list(Date date, String lecturerID) {
         ArrayList<Session> sessions = new ArrayList<>();
         connection = getConnection();
@@ -86,8 +107,9 @@ public class DBContextSession extends DBContext<Session> {
                 Lecturer lecturer = dbl.get(rs.getString("LecturerID"));
                 int number = rs.getInt("SessionNumber");
                 String description = rs.getString("SessionDescription");
-                if (description == null)
+                if (description == null) {
                     description = "";
+                }
                 DBContextRoom dbr = new DBContextRoom();
                 Room room = dbr.get(rs.getString("RoomID"));
                 DBContextTimeSlot dbts = new DBContextTimeSlot();
@@ -121,8 +143,9 @@ public class DBContextSession extends DBContext<Session> {
                 Lecturer lecturer = dbl.get(rs.getString("LecturerID"));
                 int number = rs.getInt("SessionNumber");
                 String description = rs.getString("SessionDescription");
-                if (description == null)
+                if (description == null) {
                     description = "";
+                }
                 DBContextRoom dbr = new DBContextRoom();
                 Room room = dbr.get(rs.getString("RoomID"));
                 Date date = rs.getDate("Date");

@@ -13,9 +13,9 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
-import model.Account;
 import model.Session;
 import model.TimeSlot;
 import model.Week;
@@ -30,8 +30,13 @@ public class WeeklyScheduleController extends BaseRequiredAuthenticationControll
     @Override
     protected void processGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         Calendar calendar = Calendar.getInstance();
-        Date date = new Date(calendar.getTime().getTime());
         int year = calendar.get(Calendar.YEAR);
+        Date date = new Date(System.currentTimeMillis());
+        Time now = Time.valueOf((new Time(System.currentTimeMillis()).toString()));
+        
+        // Fake current time
+//        Date date = Date.valueOf("2022-07-01");
+//        Time now = Time.valueOf("15:00:00");
         
         WeekContext wctx = new WeekContext();
         ArrayList<Week> weeks = wctx.list(year);
@@ -47,14 +52,13 @@ public class WeeklyScheduleController extends BaseRequiredAuthenticationControll
         ArrayList<TimeSlot> slots = dbts.list();
         
         DBContextSession dbs = new DBContextSession();
-        Account account = (Account) request.getSession().getAttribute("account");
-        //ArrayList<Session> sessions = dbs.list(currentWeek, account.getUsername());
-        ArrayList<Session> sessions = dbs.list(selectedWeek, "sonnt5");
+        ArrayList<Session> sessions = dbs.list(selectedWeek, getCurrentSession(request).getUsername());
         request.setAttribute("year", year);
         request.setAttribute("weeks", weeks);
         request.setAttribute("selectedWeekStr", selectedWeek.dateListString());
         request.setAttribute("selectedWeek", selectedWeek.dateList());
-        request.setAttribute("currentDate", date);
+        request.setAttribute("today", date);
+        request.setAttribute("now", now);
         request.setAttribute("index", index);
         request.setAttribute("slots", slots);
         request.setAttribute("sessions", sessions);
@@ -64,10 +68,14 @@ public class WeeklyScheduleController extends BaseRequiredAuthenticationControll
     @Override
     protected void processPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int index = Integer.parseInt(request.getParameter("index"));
-        Calendar calendar = Calendar.getInstance();
-        Date date = new Date(calendar.getTime().getTime());
-        int year = calendar.get(Calendar.YEAR);
+        //Date date = new Date(System.currentTimeMillis());
+        int year = Integer.parseInt(request.getParameter("year"));
+//        Time now = Time.valueOf((new Time(System.currentTimeMillis()).toString()));
         
+        // Fake current time
+        Date date = Date.valueOf("2022-07-13");
+        Time now = Time.valueOf("15:00:00");
+
         WeekContext wctx = new WeekContext();
         ArrayList<Week> weeks = wctx.list(year);
         Week selectedWeek = weeks.get(index);
@@ -75,14 +83,13 @@ public class WeeklyScheduleController extends BaseRequiredAuthenticationControll
         ArrayList<TimeSlot> slots = dbts.list();
         
         DBContextSession dbs = new DBContextSession();
-        Account account = (Account) request.getSession().getAttribute("account");
-        //ArrayList<Session> sessions = dbs.list(selectedWeek, account.getUsername());
-        ArrayList<Session> sessions = dbs.list(selectedWeek, "sonnt5");
+        ArrayList<Session> sessions = dbs.list(selectedWeek, getCurrentSession(request).getUsername());
         request.setAttribute("year", year);
         request.setAttribute("weeks", weeks);
         request.setAttribute("selectedWeekStr", selectedWeek.dateListString());
         request.setAttribute("selectedWeek", selectedWeek.dateList());
-        request.setAttribute("currentDate", date);
+        request.setAttribute("today", date);
+        request.setAttribute("now", now);
         request.setAttribute("index", index);
         request.setAttribute("slots", slots);
         request.setAttribute("sessions", sessions);

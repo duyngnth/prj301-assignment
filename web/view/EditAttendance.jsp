@@ -18,7 +18,7 @@
     <body>
         <br>
         <div class="container">
-            <p>Attendance for <b>${session.group.course.id}</b> with lecture <b>${session.group.lecturer}</b> at ${session.timeslot.id.toLowerCase()} 
+            <p>Attendance for <b>${session.group.course.id}</b> with lecture <b>${session.group.lecturer.name}</b> at ${session.timeslot.id.toLowerCase()} 
                 on ${session.date}, ${session.semester}, in room ${session.room.id} at FU-HL</p>
             <form action="AttendanceTaking" method="POST">
                 <div class="table-responsive">

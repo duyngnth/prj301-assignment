@@ -17,15 +17,40 @@
     <body>
         <br>
         <div class="container text-center">
-            <h1>Schedule</h1>
-            <a href="WeeklySchedule" style="text-decoration: none; color: #e95601">
-                <h3>Weekly schedule</h3>
-            </a>
-            <br><br><br>
-            <h1>Attendance</h1>
-            <a href="AttendanceTaking" style="text-decoration: none; color: #e95601">
-                <h3>Attendance taking</h3>
-            </a>
+            <table style="margin-left: auto; margin-right: auto;" cellpadding="8" cellpadding="10">
+                <tr>
+                    <td colspan="3">
+                        <h1 style="margin-bottom: 80px">Academic portal</h1>
+                    </td>
+                </tr>
+                <tr>
+                    <td><h2 style="margin-right: 40px; margin-left: 40px">Schedule</h2></td>
+                    <td><div style="margin-left: 40px; margin-right: 40px;"></div></td>
+                    <td><h2 style="margin-right: 40px; margin-left: 40px">Attendance</h2></td>
+                </tr>
+                <tr>
+                    <td>
+                        <a href="WeeklySchedule" style="text-decoration: none; color: #e95601">
+                            <h3>Weekly schedule</h3>
+                        </a>
+                    </td>
+                    <td><div></div></td>
+                    <td>
+                        <a href="AttendanceTaking" style="text-decoration: none; color: #e95601">
+                            <h3>Attendance taking</h3>
+                        </a>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td><div></div></td>
+                    <td>
+                        <a href="AttendanceReport" style="text-decoration: none; color: #e95601">
+                            <h3>Attendance reports</h3>
+                        </a>
+                    </td>
+                </tr>
+            </table>
         </div>
     </body>
 </html>

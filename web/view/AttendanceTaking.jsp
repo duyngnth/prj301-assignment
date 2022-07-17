@@ -4,6 +4,7 @@
     Author     : duyng
 --%>
 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -18,7 +19,7 @@
     <body>
         <br>
         <div class="container text-center">
-            <h4>Attendance taking sessions of 11/07/2022</h4>
+            <h4>Attendance taking sessions of <fmt:formatDate pattern = "dd/MM/yyyy" value ="${today}"/></h4>
             <table style="margin-left: auto; margin-right: auto" cellpadding="4">
                 <c:forEach items="${sessions}" var="ss" varStatus="ss_loop">
                     <form action="AttendanceTaking" method="GET">

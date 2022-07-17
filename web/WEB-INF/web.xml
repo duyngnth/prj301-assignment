@@ -24,6 +24,10 @@
         <servlet-name>AttendanceTakingController</servlet-name>
         <servlet-class>controller.AttendanceTakingController</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AttendanceReportController</servlet-name>
+        <servlet-class>controller.AttendanceReportController</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>WeeklyScheduleController</servlet-name>
         <url-pattern>/WeeklySchedule</url-pattern>
@@ -48,9 +52,34 @@
         <servlet-name>AttendanceTakingController</servlet-name>
         <url-pattern>/AttendanceTaking</url-pattern>
     </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AttendanceReportController</servlet-name>
+        <url-pattern>/AttendanceReport</url-pattern>
+    </servlet-mapping>
     <session-config>
         <session-timeout>
             30
         </session-timeout>
     </session-config>
+    <filter>
+        <filter-name>AuthenticationFilter</filter-name>
+        <filter-class>filter.AuthenticationFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>AuthenticationFilter</filter-name>
+        <url-pattern>/Home</url-pattern>
+        <url-pattern>/WeeklySchedule</url-pattern>
+        <url-pattern>/SessionDetail</url-pattern>
+        <url-pattern>/Group</url-pattern>
+        <url-pattern>/AttendanceTaking</url-pattern>
+        <url-pattern>/AttendanceReport</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>ViewFilter</filter-name>
+        <filter-class>filter.ViewFilter</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>ViewFilter</filter-name>
+        <url-pattern>/view/*</url-pattern>
+    </filter-mapping>
 </web-app>

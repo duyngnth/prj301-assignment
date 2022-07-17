@@ -21,6 +21,9 @@ public class Session {
     Group group;
     String semester;
 
+    public Session() {
+    }
+    
     public Session(int id, Lecturer lecturer, int sessionNumber, String sessionDescription, Room room, Date date, TimeSlot timeslot, Group group, String semester) {
         this.id = id;
         this.lecturer = lecturer;

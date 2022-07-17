@@ -21,6 +21,31 @@ public class DBContextAttendance extends DBContext<Attendance> {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    public ArrayList<Attendance> listByGroup(int groupID) {
+        ArrayList<Attendance> atds = new ArrayList<>();
+        connection = getConnection();
+        try {
+            String sql = "SELECT [StudentID], [SessionID], [Status] FROM Attendance\n"
+                    + "WHERE [SessionID] IN (SELECT [SessionID] FROM [Session]\n"
+                    + "WHERE [GroupID] = ?)";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, groupID);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                Attendance atd = new Attendance();
+                DBContextStudent dbst = new DBContextStudent();
+                atd.setStudent(dbst.get(rs.getString("StudentID")));
+                DBContextSession dbss = new DBContextSession();
+                atd.setSession(dbss.get(rs.getInt("SessionID")));
+                atd.setStatus(rs.getString("Status"));
+                atds.add(atd);
+            }
+            connection.close();
+        } catch (SQLException e) {
+        }
+        return atds;
+    }
+
     public ArrayList<Attendance> list(int sessionID) {
         ArrayList<Attendance> atds = new ArrayList<>();
         connection = getConnection();
@@ -70,7 +95,8 @@ public class DBContextAttendance extends DBContext<Attendance> {
         connection = getConnection();
         try {
             String sql = "SELECT [Status], [RecordTime],\n"
-                    + "[Description] FROM [Attendance]\n"
+                    + "[Description], [TakenBy]\n"
+                    + "FROM [Attendance]\n"
                     + "WHERE [SessionID] = ?\n"
                     + "AND [StudentID] = ?";
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -90,6 +116,8 @@ public class DBContextAttendance extends DBContext<Attendance> {
                     description = "";
                 }
                 atd.setDescription(description);
+                DBContextLecturer dbl = new DBContextLecturer();
+                atd.setTakenBy(dbl.get(rs.getString("TakenBy")));
             }
             connection.close();
         } catch (SQLException e) {
@@ -110,7 +138,7 @@ public class DBContextAttendance extends DBContext<Attendance> {
                 Attendance a = models.get(i);
                 sql += "('" + a.getStudent().getId() + "', " + a.getSession().getId()
                         + ", '" + a.getStatus() + "', '" + a.getRecordTime().toString()
-                        + "', '" + a.getDescription() + "')";
+                        + "', N'" + a.getDescription() + "', '" + a.getTakenBy().getId() + "')";
                 if (i != (models.size() - 1)) {
                     sql += ",\n";
                 }
@@ -127,14 +155,16 @@ public class DBContextAttendance extends DBContext<Attendance> {
         connection = getConnection();
         try {
             String sql = "UPDATE [Attendance]\n"
-                    + "SET [Status] = ?, [RecordTime] = ?, [Description] = ?\n"
+                    + "SET [Status] = ?, [RecordTime] = ?,\n"
+                    + "[Description] = ?, [TakenBy] = ?\n"
                     + "WHERE [SessionID] = ? AND [StudentID] = ?";
             PreparedStatement stmt = connection.prepareStatement(sql);
             stmt.setString(1, model.getStatus());
             stmt.setTimestamp(2, model.getRecordTime());
             stmt.setNString(3, model.getDescription());
-            stmt.setInt(4, model.getSession().getId());
-            stmt.setString(5, model.getStudent().getId());
+            stmt.setString(4, model.getTakenBy().getId());
+            stmt.setInt(5, model.getSession().getId());
+            stmt.setString(6, model.getStudent().getId());
             stmt.executeUpdate();
             connection.close();
         } catch (SQLException e) {
@@ -148,8 +178,9 @@ public class DBContextAttendance extends DBContext<Attendance> {
             Attendance model1 = models.get(i);
             Attendance model2 = dbat.get(model1.getSession().getId(), model1.getStudent().getId());
             if (!model1.getStatus().equals(model2.getStatus())
-                    || !model1.getDescription().equals(model2.getDescription()))
+                    || !model1.getDescription().equals(model2.getDescription())) {
                 update(model1);
+            }
         }
     }
 

@@ -2,11 +2,11 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-
 package controller;
 
 import dal.DBContextAttendance;
 import dal.DBContextGroup;
+import dal.DBContextLecturer;
 import dal.DBContextSession;
 import dal.DBContextStudent;
 import java.io.IOException;
@@ -27,48 +27,48 @@ import model.Student;
  *
  * @author duyng
  */
-public class AttendanceTakingController extends HttpServlet {
+public class AttendanceTakingController extends BaseRequiredAuthenticationController {
 
-    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
-    /** 
-     * Handles the HTTP <code>GET</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
-    protected void doGet(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
-        Date date = Date.valueOf("2022-07-11");
-        Time time = Time.valueOf("14:30:00");
+    protected void processGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        Date date = new Date(System.currentTimeMillis());
+        Time now = Time.valueOf((new Time(System.currentTimeMillis()).toString()));
+
+        // Fake current time
+//        Date date = Date.valueOf("2022-07-15");
+//        Time now = Time.valueOf("15:00:00");
+
         String SessionID = request.getParameter("SessionID");
-        
+
         if (SessionID == null || SessionID.length() == 0) {
             DBContextSession dbss = new DBContextSession();
-            ArrayList<Session> sessions = dbss.list(date, "sonnt5");
-            
+            ArrayList<Session> sessions = dbss.list(date, getCurrentSession(request).getUsername());
+
             ArrayList<Boolean> takePermissions = new ArrayList<>();
             for (int i = 0; i < sessions.size(); i++) {
                 Boolean takePermission = true;
-                if (time.before(sessions.get(i).getTimeslot().getStart()))
+                if (now.before(sessions.get(i).getTimeslot().getStart())) {
                     takePermission = false;
+                }
                 DBContextAttendance dbat = new DBContextAttendance();
-                if (!dbat.list(sessions.get(i).getId()).isEmpty())
+                if (!dbat.list(sessions.get(i).getId()).isEmpty()) {
                     takePermission = false;
+                }
                 takePermissions.add(takePermission);
-                
+
             }
-            
+
             ArrayList<Boolean> editPermissions = new ArrayList<>();
             for (int i = 0; i < sessions.size(); i++) {
                 boolean editPermission = false;
                 DBContextAttendance dbat = new DBContextAttendance();
-                if (!dbat.list(sessions.get(i).getId()).isEmpty())
+                if (!dbat.list(sessions.get(i).getId()).isEmpty()) {
                     editPermission = true;
+                }
                 editPermissions.add(editPermission);
             }
-            
+
+            request.setAttribute("today", date);
             request.setAttribute("sessions", sessions);
             request.setAttribute("takePermissions", takePermissions);
             request.setAttribute("editPermissions", editPermissions);
@@ -78,11 +78,11 @@ public class AttendanceTakingController extends HttpServlet {
             int sessionID = Integer.parseInt(request.getParameter("SessionID"));
             DBContextSession dbss = new DBContextSession();
             Session session = dbss.get(sessionID);
-            
+
             if (action.equals("Take")) {
                 DBContextGroup dbg = new DBContextGroup();
                 Group group = dbg.getBySession(sessionID);
-                
+
                 request.setAttribute("session", session);
                 request.setAttribute("group", group);
                 request.getRequestDispatcher("view/TakeAttendance.jsp").forward(request, response);
@@ -93,35 +93,26 @@ public class AttendanceTakingController extends HttpServlet {
                 request.setAttribute("atds", atds);
                 request.getRequestDispatcher("view/EditAttendance.jsp").forward(request, response);
             }
-        } 
-        
-        
-    } 
+        }
+    }
 
-    /** 
-     * Handles the HTTP <code>POST</code> method.
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+    protected void processPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String action = request.getParameter("action");
-        
+
         if (action.equals("Take")) {
             takeAttendance(request, response);
-        } else
+        } else {
             editAttendance(request, response);
+        }
     }
 
     protected void takeAttendance(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         int sessionID = Integer.parseInt(request.getParameter("SessionID"));
         DBContextSession dbss = new DBContextSession();
         Session session = dbss.get(sessionID);
-        
+
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         ArrayList<Attendance> atds = new ArrayList<>();
         for (int i = 0; i < session.getGroup().getStudents().size(); i++) {
@@ -133,21 +124,23 @@ public class AttendanceTakingController extends HttpServlet {
             atd.setStatus(request.getParameter("status" + student.getId()));
             atd.setRecordTime(timestamp);
             atd.setDescription(request.getParameter("comment" + student.getId()));
+            DBContextLecturer dbl = new DBContextLecturer();
+            atd.setTakenBy(dbl.get("sonnt5"));
             atds.add(atd);
         }
-        
+
         DBContextAttendance dbat = new DBContextAttendance();
         dbat.add(atds);
         request.setAttribute("action", "Attendance taked");
         request.getRequestDispatcher("view/Confirm.jsp").forward(request, response);
     }
-    
+
     protected void editAttendance(HttpServletRequest request, HttpServletResponse response)
-    throws ServletException, IOException {
+            throws ServletException, IOException {
         int sessionID = Integer.parseInt(request.getParameter("SessionID"));
         DBContextSession dbss = new DBContextSession();
         Session session = dbss.get(sessionID);
-        
+
         Timestamp timestamp = new Timestamp(System.currentTimeMillis());
         ArrayList<Attendance> atds = new ArrayList<>();
         for (int i = 0; i < session.getGroup().getStudents().size(); i++) {
@@ -159,22 +152,24 @@ public class AttendanceTakingController extends HttpServlet {
             atd.setStatus(request.getParameter("status" + student.getId()));
             atd.setRecordTime(timestamp);
             atd.setDescription(request.getParameter("comment" + student.getId()));
+            DBContextLecturer dbl = new DBContextLecturer();
+            atd.setTakenBy(dbl.get("sonnt5"));
             atds.add(atd);
         }
-        
+
         DBContextAttendance dbat = new DBContextAttendance();
         dbat.update(atds);
         request.setAttribute("action", "Attendance edited");
         request.getRequestDispatcher("view/Confirm.jsp").forward(request, response);
     }
-    
-    /** 
+
+    /**
      * Returns a short description of the servlet.
+     *
      * @return a String containing servlet description
      */
     @Override
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
-
 }

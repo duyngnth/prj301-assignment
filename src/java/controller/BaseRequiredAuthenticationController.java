@@ -5,6 +5,7 @@
 
 package controller;
 
+import dal.DBContextAccount;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
@@ -20,8 +21,15 @@ public abstract class BaseRequiredAuthenticationController extends HttpServlet {
     
     private boolean isAuthenticated(HttpServletRequest request) {
         Account account = (Account) request.getSession().getAttribute("account");
-        //return (account != null);
-        return true;
+        return (account != null);
+        //return true;
+    }
+    
+    protected Account getCurrentSession(HttpServletRequest request) {
+        return (Account) request.getSession().getAttribute("account");
+        // Fake login session
+//        DBContextAccount dba = new DBContextAccount();
+//        return dba.get("sonnt5");
     }
     
     protected abstract void processGet(HttpServletRequest request, HttpServletResponse response)

@@ -23,6 +23,32 @@ public class DBContextGroup extends DBContext<Group> {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
+    public ArrayList<Group> list(String lecturerID) {
+        ArrayList<Group> groups = new ArrayList<>();
+        connection = getConnection();
+        try {
+            String sql = "SELECT [GroupID], [GroupName], \n"
+                    + "[LecturerID], [CourseID] FROM [Group]\n"
+                    + "WHERE [LecturerID] = ?";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, lecturerID);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("GroupID");
+                String name = rs.getString("GroupName");
+                DBContextLecturer dbl = new DBContextLecturer();
+                Lecturer lecturer = dbl.get(lecturerID);
+                DBContextCourse dbc = new DBContextCourse();
+                Course course = dbc.get(rs.getString("CourseID"));
+                Group group = new Group(id, name, lecturer, course);
+                groups.add(group);
+            }
+            connection.close();
+        } catch (SQLException e) {
+        }
+        return groups;
+    }
+
     public ArrayList<Group> listByStudent(String sID) {
         ArrayList<Group> groups = new ArrayList<>();
         connection = getConnection();

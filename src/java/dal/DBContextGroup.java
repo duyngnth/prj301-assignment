@@ -52,7 +52,29 @@ public class DBContextGroup extends DBContext<Group> {
 
     @Override
     public Group get(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Group group = null;
+        connection = getConnection();
+        try {
+            String sql = "SELECT [GroupID], [GroupName], \n"
+                    + "[LecturerID], [CourseID] FROM [Group]\n"
+                    + "WHERE [GroupID] = ?";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String name = rs.getString("GroupName");
+                DBContextLecturer dbl = new DBContextLecturer();
+                Lecturer lecturer = dbl.get(rs.getString("LecturerID"));
+                DBContextCourse dbc = new DBContextCourse();
+                Course course = dbc.get(rs.getString("CourseID"));
+                group = new Group(id, name, lecturer, course);
+                DBContextStudent dbs = new DBContextStudent();
+                group.setStudents(dbs.listByGroup(name, course.getId()));
+            }
+            connection.close();
+        } catch (SQLException e) {
+        }
+        return group;
     }
 
     @Override

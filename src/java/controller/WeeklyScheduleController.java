@@ -54,7 +54,7 @@ public class WeeklyScheduleController extends BaseRequiredAuthenticationControll
         request.setAttribute("weeks", weeks);
         request.setAttribute("selectedWeekStr", selectedWeek.dateListString());
         request.setAttribute("selectedWeek", selectedWeek.dateList());
-        request.setAttribute("currentDate", dbs);
+        request.setAttribute("currentDate", date);
         request.setAttribute("index", index);
         request.setAttribute("slots", slots);
         request.setAttribute("sessions", sessions);

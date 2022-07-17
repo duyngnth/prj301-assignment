@@ -68,6 +68,10 @@ public class Student {
     public void setGivenName(String givenName) {
         this.givenName = givenName;
     }
+    
+    public String getFullname() {
+        return surname + " " + middleName + " " + givenName;
+    }
 
     public ArrayList<Group> getGroups() {
         return groups;

@@ -57,7 +57,25 @@ public class DBContextStudent extends DBContext<Student> {
 
     @Override
     public Student get(String id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Student student = null;
+        connection = getConnection();
+        try {
+            String sql = "SELECT [StudentID], [MemberCode], [Surname],\n"
+                    + "[MiddleName], [GivenName] FROM [Student]\n"
+                    + "WHERE [StudentID] = ?";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, id);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                String code = rs.getString("MemberCode");
+                String surname = rs.getNString("Surname");
+                String middleName = rs.getNString("MiddleName");
+                String givenName = rs.getNString("GivenName");
+                student = new Student(id, code, surname, middleName, givenName);
+            }
+        } catch (SQLException e) {
+        }
+        return student;
     }
 
     @Override

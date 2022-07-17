@@ -8,6 +8,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import model.Group;
 import model.Lecturer;
@@ -65,10 +66,77 @@ public class DBContextSession extends DBContext<Session> {
         }
         return sessions;
     }
+    
+    public ArrayList<Session> list(Date date, String lecturerID) {
+        ArrayList<Session> sessions = new ArrayList<>();
+        connection = getConnection();
+        try {
+            String sql = "SELECT [SessionID], [LecturerID], [SessionNumber],\n"
+                    + "[SessionDescription], [RoomID], [Date], \n"
+                    + "[TimeSlotID], [GroupID], [Semester] FROM [Session]\n"
+                    + "WHERE [LecturerID] = ?\n"
+                    + "AND [Date] = ?";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setString(1, lecturerID);
+            stmt.setDate(2, date);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                int id = rs.getInt("SessionID");
+                DBContextLecturer dbl = new DBContextLecturer();
+                Lecturer lecturer = dbl.get(rs.getString("LecturerID"));
+                int number = rs.getInt("SessionNumber");
+                String description = rs.getString("SessionDescription");
+                if (description == null)
+                    description = "";
+                DBContextRoom dbr = new DBContextRoom();
+                Room room = dbr.get(rs.getString("RoomID"));
+                DBContextTimeSlot dbts = new DBContextTimeSlot();
+                TimeSlot timeslot = dbts.get(rs.getString("TimeSlotID"));
+                DBContextGroup dbg = new DBContextGroup();
+                Group group = dbg.getBySession(id);
+                String semester = rs.getString("Semester");
+                Session session = new Session(id, lecturer, number, description, room, date, timeslot, group, semester);
+                sessions.add(session);
+            }
+            connection.close();
+        } catch (SQLException e) {
+        }
+        return sessions;
+    }
 
     @Override
     public Session get(int id) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        Session session = null;
+        connection = getConnection();
+        try {
+            String sql = "SELECT [SessionID], [LecturerID], [SessionNumber],\n"
+                    + "[SessionDescription], [RoomID], [Date], \n"
+                    + "[TimeSlotID], [GroupID], [Semester] FROM [Session]\n"
+                    + "WHERE [SessionID] = ?";
+            PreparedStatement stmt = connection.prepareStatement(sql);
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+            while (rs.next()) {
+                DBContextLecturer dbl = new DBContextLecturer();
+                Lecturer lecturer = dbl.get(rs.getString("LecturerID"));
+                int number = rs.getInt("SessionNumber");
+                String description = rs.getString("SessionDescription");
+                if (description == null)
+                    description = "";
+                DBContextRoom dbr = new DBContextRoom();
+                Room room = dbr.get(rs.getString("RoomID"));
+                Date date = rs.getDate("Date");
+                DBContextTimeSlot dbts = new DBContextTimeSlot();
+                TimeSlot timeslot = dbts.get(rs.getString("TimeSlotID"));
+                DBContextGroup dbg = new DBContextGroup();
+                Group group = dbg.getBySession(id);
+                String semester = rs.getString("Semester");
+                session = new Session(id, lecturer, number, description, room, date, timeslot, group, semester);
+            }
+            connection.close();
+        } catch (SQLException e) {
+        }
+        return session;
     }
 
     @Override
@@ -90,5 +158,4 @@ public class DBContextSession extends DBContext<Session> {
     public void delete(Session model) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
 }

@@ -16,6 +16,7 @@ public class Attendance {
     Timestamp recordTime;
     String status;
     String description;
+    Lecturer takenBy;
 
     public Student getStudent() {
         return student;
@@ -55,5 +56,13 @@ public class Attendance {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Lecturer getTakenBy() {
+        return takenBy;
+    }
+
+    public void setTakenBy(Lecturer takenBy) {
+        this.takenBy = takenBy;
     }
 }

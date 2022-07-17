@@ -4,6 +4,7 @@
     Author     : duyng
 --%>
 
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -60,103 +61,34 @@
                                 <th class="text-uppercase text-white">Sunday</th>
                             </tr>
                             <tr class="bg-orange">
-                                <th class="text-uppercase text-white">${requestScope.selectedWeekStr.get(0)}</th>
-                                <th class="text-uppercase text-white">${requestScope.selectedWeekStr.get(1)}</th>
-                                <th class="text-uppercase text-white">${requestScope.selectedWeekStr.get(2)}</th>
-                                <th class="text-uppercase text-white">${requestScope.selectedWeekStr.get(3)}</th>
-                                <th class="text-uppercase text-white">${requestScope.selectedWeekStr.get(4)}</th>
-                                <th class="text-uppercase text-white">${requestScope.selectedWeekStr.get(5)}</th>
-                                <th class="text-uppercase text-white">${requestScope.selectedWeekStr.get(6)}</th>
+                                <c:forEach var="sw" items="${requestScope.selectedWeek}" varStatus="sw_loop">
+                                    <th class="text-uppercase text-white">
+                                        <fmt:formatDate pattern = "dd-MM" value = "${sw}" />
+                                    </th>
+                                </c:forEach>
                             </tr>
                         </thead>
                         <tbody>
                             <c:forEach items="${requestScope.slots}" var="sl" varStatus="sl_loop">
                                 <tr>
                                     <td class="align-middle">${sl.id}</td>
-                                    <td>
-                                        <c:forEach items="${requestScope.sessions}" var="ss" varStatus="ss_loop">
-                                            <c:if test="${ss.date.toString() eq requestScope.selectedWeek.get(0).toString()}">
-                                                <c:if test="${ss.timeslot.id eq sl.id}">
-                                                    <span class="bg-green padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">${ss.group.course.id}</span>
-                                                    <div class="margin-10px-top font-size14 text-gray">${ss.group.name}</div>
-                                                    <div class="font-size14">${ss.timeslot.toString()}</div>
-                                                    <div class="font-size14 text-gray">at ${ss.room.id}</div>
-                                                </c:if>
-                                            </c:if>
-                                        </c:forEach>
-                                    </td>
-                                    <td>
-                                        <c:forEach items="${requestScope.sessions}" var="ss" varStatus="ss_loop">
-                                            <c:if test="${ss.date.toString() eq requestScope.selectedWeek.get(1).toString()}">
-                                                <c:if test="${ss.timeslot.id eq sl.id}">
-                                                    <span class="bg-green padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">${ss.group.course.id}</span>
-                                                    <div class="margin-10px-top font-size14 text-gray">${ss.group.name}</div>
-                                                    <div class="font-size14">${ss.timeslot.toString()}</div>
-                                                    <div class="font-size14 text-gray">at ${ss.room.id}</div>
-                                                </c:if>
-                                            </c:if>
-                                        </c:forEach>
-                                    </td>
-                                    <td>
-                                        <c:forEach items="${requestScope.sessions}" var="ss" varStatus="ss_loop">
-                                            <c:if test="${ss.date.toString() eq requestScope.selectedWeek.get(2).toString()}">
-                                                <c:if test="${ss.timeslot.id eq sl.id}">
-                                                    <span class="bg-green padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">${ss.group.course.id}</span>
-                                                    <div class="margin-10px-top font-size14 text-gray">${ss.group.name}</div>
-                                                    <div class="font-size14">${ss.timeslot.toString()}</div>
-                                                    <div class="font-size14 text-gray">at ${ss.room.id}</div>
-                                                </c:if>
-                                            </c:if>
-                                        </c:forEach>
-                                    </td>
-                                    <td>
-                                        <c:forEach items="${requestScope.sessions}" var="ss" varStatus="ss_loop">
-                                            <c:if test="${ss.date.toString() eq requestScope.selectedWeek.get(3).toString()}">
-                                                <c:if test="${ss.timeslot.id eq sl.id}">
-                                                    <span class="bg-green padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">${ss.group.course.id}</span>
-                                                    <div class="margin-10px-top font-size14 text-gray">${ss.group.name}</div>
-                                                    <div class="font-size14">${ss.timeslot.toString()}</div>
-                                                    <div class="font-size14 text-gray">at ${ss.room.id}</div>
-                                                </c:if>
-                                            </c:if>
-                                        </c:forEach>
-                                    </td>
-                                    <td>
-                                        <c:forEach items="${requestScope.sessions}" var="ss" varStatus="ss_loop">
-                                            <c:if test="${ss.date.toString() eq requestScope.selectedWeek.get(4).toString()}">
-                                                <c:if test="${ss.timeslot.id eq sl.id}">
-                                                    <span class="bg-green padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">${ss.group.course.id}</span>
-                                                    <div class="margin-10px-top font-size14 text-gray">${ss.group.name}</div>
-                                                    <div class="font-size14">${ss.timeslot.toString()}</div>
-                                                    <div class="font-size14 text-gray">at ${ss.room.id}</div>
-                                                </c:if>
-                                            </c:if>
-                                        </c:forEach>
-                                    </td>
-                                    <td>
-                                        <c:forEach items="${requestScope.sessions}" var="ss" varStatus="ss_loop">
-                                            <c:if test="${ss.date.toString() eq requestScope.selectedWeek.get(5).toString()}">
-                                                <c:if test="${ss.timeslot.id eq sl.id}">
-                                                    <span class="bg-green padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">${ss.group.course.id}</span>
-                                                    <div class="margin-10px-top font-size14 text-gray">${ss.group.name}</div>
-                                                    <div class="font-size14">${ss.timeslot.toString()}</div>
-                                                    <div class="font-size14 text-gray">at ${ss.room.id}</div>
-                                                </c:if>
-                                            </c:if>
-                                        </c:forEach>
-                                    </td>
-                                    <td>
-                                        <c:forEach items="${requestScope.sessions}" var="ss" varStatus="ss_loop">
-                                            <c:if test="${ss.date.toString() eq requestScope.selectedWeek.get(6).toString()}">
-                                                <c:if test="${ss.timeslot.id eq sl.id}">
-                                                        <span class="bg-green padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">${ss.group.course.id}</span>
+                                    <c:forEach items="${requestScope.selectedWeek}" var="sw" varStatus="sw_loop">
+                                        <td>
+                                            <c:forEach items="${requestScope.sessions}" var="ss" varStatus="ss_loop">
+                                                <c:if test="${ss.date.toString() eq sw.toString()}">
+                                                    <c:if test="${ss.timeslot.id eq sl.id}">
+                                                        <a href="SessionDetail?ID=${ss.id}" style="text-decoration: none">
+                                                            <div class="bg-green padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">${ss.group.course.id}</div>
+                                                        </a>
                                                         <div class="margin-10px-top font-size14 text-gray">${ss.group.name}</div>
                                                         <div class="font-size14">${ss.timeslot.toString()}</div>
                                                         <div class="font-size14 text-gray">at ${ss.room.id}</div>
+                                                    </c:if>
                                                 </c:if>
-                                            </c:if>
-                                        </c:forEach>
-                                    </td>
+                                            </c:forEach>
+                                        </td>
+                                    </c:forEach>
+
                                 </tr>
                             </c:forEach>
                         </tbody>

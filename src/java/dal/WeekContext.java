@@ -5,16 +5,17 @@
 package dal;
 
 import java.sql.Date;
+import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import model.Week;
-import org.apache.naming.java.javaURLContextFactory;
 
 /**
  *
  * @author duyng
  */
 public class WeekContext {
+    
     public ArrayList<Week> list(int year) {
         ArrayList<Week> weeks = new ArrayList<>();
         Calendar c = Calendar.getInstance();
@@ -53,13 +54,5 @@ public class WeekContext {
         week.setStart(start);
         week.setEnd(end);
         return week;
-    }
-    
-    public static void main(String[] args) {
-        WeekContext wc = new WeekContext();
-        ArrayList<Date> dates = wc.get(2022, 23).dateList();
-        for (int i = 0; i < dates.size(); i++) {
-            System.out.println(dates.get(i).toString());
-        }
     }
 }

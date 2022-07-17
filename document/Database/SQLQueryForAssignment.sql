@@ -66,8 +66,8 @@ WHERE [GroupID] IN
 WHERE [GroupName] = 'SE1623'
 AND [CourseID] = 'PRJ301'))
 
-DECLARE @i INT = 33
-WHILE @i < 60
+DECLARE @i INT = 3
+WHILE @i < 25
 BEGIN
 	DECLARE @date DATE = (SELECT [Date] FROM [Session] WHERE SessionID = @i)
 	DECLARE @time TIME = (SELECT [End] FROM [TimeSlot] WHERE TimeSlotID = (SELECT [TimeSlotID] FROM [Session] WHERE [SessionID] = @i))
@@ -78,7 +78,7 @@ BEGIN
 	SET @i = @i + 1
 END
 
-SELECT * FROM [Session]
+SELECT * FROM [Student]
 
 -- Add students to group SE1623 - IOT102
 INSERT INTO [StudentGroup] VALUES
@@ -196,112 +196,3 @@ AND [Date] BETWEEN '2022-07-11' AND '2022-07-17'
 SELECT [DisplayName] FROM [Account]
 WHERE [Username] = 'sonnt5'
 AND [Password] = '123'
-
--- Add students to group SE1631 - PRJ301
-INSERT INTO StudentGroup VALUES
-('HE141428', 5),
-('HE141476', 5),
-('HE150076', 5),
-('HE150811', 5),
-('HE150963', 5),
-('HE151052', 5),
-('HE151058', 5),
-('HE151358', 5),
-('HE153050', 5),
-('HE153093', 5),
-('HE153381', 5),
-('HE153487', 5),
-('HE153560', 5),
-('HE153602', 5),
-('HE160167', 5),
-('HE160491', 5),
-('HE161541', 5),
-('HE161543', 5),
-('HE161551', 5),
-('HE161645', 5),
-('HE161811', 5),
-('HE163004', 5),
-('HE163491', 5),
-('HE163567', 5),
-('HE163630', 5),
-('HE163677', 5),
-('HE163697', 5),
-('HE163818', 5),
-('HE163849', 5),
-('HE163997', 5)
-
--- Insert sessions for SE1631 - PRJ301
-INSERT INTO [Session](LecturerID, SessionNumber, SessionDescription, RoomID, Date, TimeSlotID, GroupID, Semester) VALUES
-(N'sonnt5', 1, N'', N'DE-C202', CAST(N'2022-05-09' AS Date), N'Slot 1', 5, N'Summer 2022'),
-(N'sonnt5', 2, N'', N'DE-C202', CAST(N'2022-05-11' AS Date), N'Slot 1', 5, N'Summer 2022'),
-(N'sonnt5', 3, N'', N'DE-C202', CAST(N'2022-05-13' AS Date), N'Slot 1', 5, N'Summer 2022'),
-(N'sonnt5', 4, N'', N'DE-C202', CAST(N'2022-05-16' AS Date), N'Slot 1', 5, N'Summer 2022'),
-(N'sonnt5', 5, N'', N'DE-C202', CAST(N'2022-05-18' AS Date), N'Slot 1', 5, N'Summer 2022'),
-(N'sonnt5', 6, N'', N'DE-C202', CAST(N'2022-05-20' AS Date), N'Slot 1', 5, N'Summer 2022'),
-(N'sonnt5', 7, N'', N'DE-C202', CAST(N'2022-05-23' AS Date), N'Slot 1', 5, N'Summer 2022'),
-(N'sonnt5', 8, N'', N'DE-C202', CAST(N'2022-05-25' AS Date), N'Slot 1', 5, N'Summer 2022'),
-(N'sonnt5', 9, N'', N'DE-C202', CAST(N'2022-05-27' AS Date), N'Slot 1', 5, N'Summer 2022'),
-(N'sonnt5', 10, N'', N'DE-C202', CAST(N'2022-05-30' AS Date), N'Slot 1', 5, N'Summer 2022'),
-(N'sonnt5', 11, N'', N'DE-C202', CAST(N'2022-06-01' AS Date), N'Slot 1', 5, N'Summer 2022'),
-(N'sonnt5', 12, N'', N'DE-C202', CAST(N'2022-06-03' AS Date), N'Slot 1', 5, N'Summer 2022'),
-(N'sonnt5', 13, N'', N'DE-C202', CAST(N'2022-06-06' AS Date), N'Slot 1', 5, N'Summer 2022'),
-(N'sonnt5', 14, N'', N'DE-C202', CAST(N'2022-06-08' AS Date), N'Slot 1', 5, N'Summer 2022'),
-(N'sonnt5', 15, N'', N'DE-C202', CAST(N'2022-06-10' AS Date), N'Slot 1', 5, N'Summer 2022'),
-(N'sonnt5', 16, N'', N'DE-C202', CAST(N'2022-06-13' AS Date), N'Slot 1', 5, N'Summer 2022'),
-(N'sonnt5', 17, N'', N'DE-C202', CAST(N'2022-06-15' AS Date), N'Slot 1', 5, N'Summer 2022'),
-(N'sonnt5', 18, N'', N'DE-C202', CAST(N'2022-06-17' AS Date), N'Slot 1', 5, N'Summer 2022'),
-(N'sonnt5', 19, N'', N'DE-C202', CAST(N'2022-06-20' AS Date), N'Slot 1', 5, N'Summer 2022'),
-(N'sonnt5', 20, N'', N'DE-C202', CAST(N'2022-06-22' AS Date), N'Slot 1', 5, N'Summer 2022'),
-(N'sonnt5', 21, N'', N'DE-C202', CAST(N'2022-06-24' AS Date), N'Slot 1', 5, N'Summer 2022'),
-(N'sonnt5', 22, N'', N'DE-C202', CAST(N'2022-06-27' AS Date), N'Slot 1', 5, N'Summer 2022'),
-(N'sonnt5', 23, N'', N'DE-C202', CAST(N'2022-06-29' AS Date), N'Slot 1', 5, N'Summer 2022'),
-(N'sonnt5', 24, N'', N'DE-C202', CAST(N'2022-07-01' AS Date), N'Slot 1', 5, N'Summer 2022'),
-(N'sonnt5', 25, N'', N'DE-C202', CAST(N'2022-07-11' AS Date), N'Slot 1', 5, N'Summer 2022'),
-(N'sonnt5', 26, N'', N'DE-C202', CAST(N'2022-07-13' AS Date), N'Slot 1', 5, N'Summer 2022'),
-(N'sonnt5', 27, N'', N'DE-C202', CAST(N'2022-07-15' AS Date), N'Slot 1', 5, N'Summer 2022'),
-(N'sonnt5', 28, N'', N'DE-C202', CAST(N'2022-07-18' AS Date), N'Slot 1', 5, N'Summer 2022'),
-(N'sonnt5', 29, N'', N'DE-C202', CAST(N'2022-07-20' AS Date), N'Slot 1', 5, N'Summer 2022'),
-(N'sonnt5', 30, N'', N'DE-C202', CAST(N'2022-07-22' AS Date), N'Slot 1', 5, N'Summer 2022')
-
--- Add attendance taking for SE1631 - PRJ301
-DECLARE @sID INT = 32
-WHILE @sID < 59
-BEGIN
-	SET @sID = @sID + 1
-	INSERT INTO [Attendance](StudentID, SessionID, Status, RecordTime, TakenBy) VALUES
-	('HE141428', @sID, 'Attended', SYSDATETIME(), 'sonnt5'),
-	('HE141476', @sID, 'Attended', SYSDATETIME(), 'sonnt5'),
-	('HE150076', @sID, 'Attended', SYSDATETIME(), 'sonnt5'),
-	('HE150811', @sID, 'Attended', SYSDATETIME(), 'sonnt5'),
-	('HE150963', @sID, 'Attended', SYSDATETIME(), 'sonnt5'),
-	('HE151052', @sID, 'Attended', SYSDATETIME(), 'sonnt5'),
-	('HE151058', @sID, 'Attended', SYSDATETIME(), 'sonnt5'),
-	('HE151358', @sID, 'Attended', SYSDATETIME(), 'sonnt5'),
-	('HE153050', @sID, 'Attended', SYSDATETIME(), 'sonnt5'),
-	('HE153093', @sID, 'Attended', SYSDATETIME(), 'sonnt5'),
-	('HE153381', @sID, 'Attended', SYSDATETIME(), 'sonnt5'),
-	('HE153487', @sID, 'Attended', SYSDATETIME(), 'sonnt5'),
-	('HE153560', @sID, 'Attended', SYSDATETIME(), 'sonnt5'),
-	('HE153602', @sID, 'Attended', SYSDATETIME(), 'sonnt5'),
-	('HE160167', @sID, 'Attended', SYSDATETIME(), 'sonnt5'),
-	('HE160491', @sID, 'Attended', SYSDATETIME(), 'sonnt5'),
-	('HE161541', @sID, 'Attended', SYSDATETIME(), 'sonnt5'),
-	('HE161543', @sID, 'Attended', SYSDATETIME(), 'sonnt5'),
-	('HE161551', @sID, 'Attended', SYSDATETIME(), 'sonnt5'),
-	('HE161645', @sID, 'Attended', SYSDATETIME(), 'sonnt5'),
-	('HE161811', @sID, 'Attended', SYSDATETIME(), 'sonnt5'),
-	('HE163004', @sID, 'Attended', SYSDATETIME(), 'sonnt5'),
-	('HE163491', @sID, 'Attended', SYSDATETIME(), 'sonnt5'),
-	('HE163567', @sID, 'Attended', SYSDATETIME(), 'sonnt5'),
-	('HE163630', @sID, 'Attended', SYSDATETIME(), 'sonnt5'),
-	('HE163677', @sID, 'Attended', SYSDATETIME(), 'sonnt5'),
-	('HE163697', @sID, 'Attended', SYSDATETIME(), 'sonnt5'),
-	('HE163818', @sID, 'Attended', SYSDATETIME(), 'sonnt5'),
-	('HE163849', @sID, 'Attended', SYSDATETIME(), 'sonnt5'),
-	('HE163997', @sID, 'Attended', SYSDATETIME(), 'sonnt5')
-END
-
-SELECT * FROM Attendance
-WHERE [StudentID] IN
-(SELECT [StudentID] FROM [StudentGroup]
-WHERE [GroupID] = 5)

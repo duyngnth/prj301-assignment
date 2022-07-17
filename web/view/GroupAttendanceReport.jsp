@@ -53,7 +53,7 @@
                     </thead>
                     <tbody>
                         <c:forEach items="${students}" var="st" varStatus="st_loop">
-                            <tr>
+                            <tr style="text-decoration: none">
                                 <td class="text-center">${st.id}</td>
                                 <td class="text-left" nowrap>${st.getFullname()}</td>
                                 <td class="text-center">${percents.get(st_loop.index)}%</td>

@@ -44,7 +44,7 @@ public class AttendanceReportController extends BaseRequiredAuthenticationContro
             ArrayList<Session> sessions = dbss.listByGroup(groupID);
 
             DBContextAttendance dba = new DBContextAttendance();
-            ArrayList<Attendance> atds = dba.listByGroup(1);
+            ArrayList<Attendance> atds = dba.listByGroup(groupID);
             
             ArrayList<Integer> percents = new ArrayList<>();
             for (int i = 0; i < students.size(); i++) {

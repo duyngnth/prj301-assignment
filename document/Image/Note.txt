@@ -3,4 +3,3 @@ Image of students in classes:
 - MAS291
 - IOT102
 - JPD123
-- PRJ301 (SE1631)

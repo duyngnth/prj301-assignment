@@ -79,10 +79,10 @@
                                                     <c:if test="${ss.timeslot.id eq sl.id}">
                                                         <a href="SessionDetail?ID=${ss.id}" style="text-decoration: none">
                                                             <div class="
-                                                                 <c:if test="${ss.date.before(today) || (ss.date.equals(today) && ss.timeslot.end.before(now))}">
+                                                                 <c:if test="${ss.date.before(today) || (ss.date.toString().equals(today.toString()) && ss.timeslot.end.before(now))}">
                                                                      bg-green
                                                                  </c:if>
-                                                                 <c:if test="${ss.date.after(today) || (ss.date.equals(today) && ss.timeslot.start.after(now))}">
+                                                                 <c:if test="${ss.date.after(today) || (ss.date.toString().equals(today.toString()) && ss.timeslot.start.after(now))}">
                                                                      bg-gray
                                                                  </c:if>
                                                                  <c:if test="${ss.date.equals(today) && ss.timeslot.start.before(now) && ss.timeslot.end.after(now)}">

@@ -66,8 +66,9 @@ WHERE [GroupID] IN
 WHERE [GroupName] = 'SE1623'
 AND [CourseID] = 'PRJ301'))
 
-DECLARE @i INT = 3
-WHILE @i < 25
+-- Update attendance record time
+DECLARE @i INT = 33
+WHILE @i < 53
 BEGIN
 	DECLARE @date DATE = (SELECT [Date] FROM [Session] WHERE SessionID = @i)
 	DECLARE @time TIME = (SELECT [End] FROM [TimeSlot] WHERE TimeSlotID = (SELECT [TimeSlotID] FROM [Session] WHERE [SessionID] = @i))
@@ -196,3 +197,43 @@ AND [Date] BETWEEN '2022-07-11' AND '2022-07-17'
 SELECT [DisplayName] FROM [Account]
 WHERE [Username] = 'sonnt5'
 AND [Password] = '123'
+
+DECLARE @sID INT = 33
+WHILE @sID < 53
+BEGIN
+	INSERT INTO [dbo].[Attendance] ([StudentID], [SessionID], [Status], [RecordTime], [Description], [TakenBy]) VALUES 
+	(N'HE141428', @sID, N'Attended', CAST(N'2022-06-24T09:00:00.000' AS DateTime), NULL, N'sonnt5'),
+	(N'HE141476', @sID, N'Attended', CAST(N'2022-06-24T09:00:00.000' AS DateTime), NULL, N'sonnt5'),
+	(N'HE150076', @sID, N'Attended', CAST(N'2022-06-24T09:00:00.000' AS DateTime), NULL, N'sonnt5'),
+	(N'HE150811', @sID, N'Attended', CAST(N'2022-06-24T09:00:00.000' AS DateTime), NULL, N'sonnt5'),
+	(N'HE150963', @sID, N'Attended', CAST(N'2022-06-24T09:00:00.000' AS DateTime), NULL, N'sonnt5'),
+	(N'HE151052', @sID, N'Attended', CAST(N'2022-06-24T09:00:00.000' AS DateTime), NULL, N'sonnt5'),
+	(N'HE151058', @sID, N'Attended', CAST(N'2022-06-24T09:00:00.000' AS DateTime), NULL, N'sonnt5'),
+	(N'HE151358', @sID, N'Attended', CAST(N'2022-06-24T09:00:00.000' AS DateTime), NULL, N'sonnt5'),
+	(N'HE153050', @sID, N'Attended', CAST(N'2022-06-24T09:00:00.000' AS DateTime), NULL, N'sonnt5'),
+	(N'HE153093', @sID, N'Attended', CAST(N'2022-06-24T09:00:00.000' AS DateTime), NULL, N'sonnt5'),
+	(N'HE153381', @sID, N'Attended', CAST(N'2022-06-24T09:00:00.000' AS DateTime), NULL, N'sonnt5'),
+	(N'HE153487', @sID, N'Attended', CAST(N'2022-06-24T09:00:00.000' AS DateTime), NULL, N'sonnt5'),
+	(N'HE153560', @sID, N'Attended', CAST(N'2022-06-24T09:00:00.000' AS DateTime), NULL, N'sonnt5'),
+	(N'HE153602', @sID, N'Attended', CAST(N'2022-06-24T09:00:00.000' AS DateTime), NULL, N'sonnt5'),
+	(N'HE160167', @sID, N'Attended', CAST(N'2022-06-24T09:00:00.000' AS DateTime), NULL, N'sonnt5'),
+	(N'HE160491', @sID, N'Attended', CAST(N'2022-06-24T09:00:00.000' AS DateTime), NULL, N'sonnt5'),
+	(N'HE161541', @sID, N'Attended', CAST(N'2022-06-24T09:00:00.000' AS DateTime), NULL, N'sonnt5'),
+	(N'HE161543', @sID, N'Attended', CAST(N'2022-06-24T09:00:00.000' AS DateTime), NULL, N'sonnt5'),
+	(N'HE161551', @sID, N'Attended', CAST(N'2022-06-24T09:00:00.000' AS DateTime), NULL, N'sonnt5'),
+	(N'HE161645', @sID, N'Attended', CAST(N'2022-06-24T09:00:00.000' AS DateTime), NULL, N'sonnt5'),
+	(N'HE161811', @sID, N'Attended', CAST(N'2022-06-24T09:00:00.000' AS DateTime), NULL, N'sonnt5'),
+	(N'HE163004', @sID, N'Attended', CAST(N'2022-06-24T09:00:00.000' AS DateTime), NULL, N'sonnt5'),
+	(N'HE163491', @sID, N'Attended', CAST(N'2022-06-24T09:00:00.000' AS DateTime), NULL, N'sonnt5'),
+	(N'HE163567', @sID, N'Attended', CAST(N'2022-06-24T09:00:00.000' AS DateTime), NULL, N'sonnt5'),
+	(N'HE163630', @sID, N'Attended', CAST(N'2022-06-24T09:00:00.000' AS DateTime), NULL, N'sonnt5'),
+	(N'HE163677', @sID, N'Attended', CAST(N'2022-06-24T09:00:00.000' AS DateTime), NULL, N'sonnt5'),
+	(N'HE163697', @sID, N'Attended', CAST(N'2022-06-24T09:00:00.000' AS DateTime), NULL, N'sonnt5'),
+	(N'HE163818', @sID, N'Attended', CAST(N'2022-06-24T09:00:00.000' AS DateTime), NULL, N'sonnt5'),
+	(N'HE163849', @sID, N'Attended', CAST(N'2022-06-24T09:00:00.000' AS DateTime), NULL, N'sonnt5'),
+	(N'HE163997', @sID, N'Attended', CAST(N'2022-06-24T09:00:00.000' AS DateTime), NULL, N'sonnt5')
+	SET @sID = @sID + 1
+END
+
+DELETE FROM [Attendance]
+WHERE SessionID = 60

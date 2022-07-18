@@ -2,6 +2,7 @@
     Document   : GroupAttendanceReport
     Created on : 17-Jul-2022, 20:48:29
     Author     : duyng
+
 --%>
 
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -54,17 +55,17 @@
                     <tbody>
                         <c:forEach items="${students}" var="st" varStatus="st_loop">
                             <tr style="text-decoration: none">
-                                <td class="text-center">${st.id}</td>
-                                <td class="text-left" nowrap>${st.getFullname()}</td>
-                                <td class="text-center">${percents.get(st_loop.index)}%</td>
+                                <td class="text-center" style="font-weight: initial!important;">${st.id}</td>
+                                <td class="text-left" style="font-weight: initial!important;" nowrap>${st.getFullname()}</td>
+                                <td class="text-center" style="font-weight: initial!important;">${percents.get(st_loop.index)}%</td>
                                 <c:forEach items="${sessions}" var="ss" varStatus="ss_loop">
                                     <c:forEach items="${atds}" var="atd" varStatus="atd_loop">
                                         <c:if test="${atd.student.id eq st.id && atd.session.id eq ss.id}">
                                             <c:if test="${atd.status == 'Attended'}">
-                                                <td class="text-center" style="color: green">P</td>
+                                                <td class="text-center" style="color: green; font-weight: initial!important;">P</td>
                                             </c:if>
                                             <c:if test="${atd.status == 'Absent'}">
-                                                <td class="text-center" style="color: red">A</td>
+                                                <td class="text-center" style="color: red; font-weight: initial!important;">A</td>
                                             </c:if>
                                         </c:if>
                                     </c:forEach>

@@ -85,7 +85,7 @@
                                                                  <c:if test="${ss.date.after(today) || (ss.date.toString().equals(today.toString()) && ss.timeslot.start.after(now))}">
                                                                      bg-gray
                                                                  </c:if>
-                                                                 <c:if test="${ss.date.equals(today) && ss.timeslot.start.before(now) && ss.timeslot.end.after(now)}">
+                                                                 <c:if test="${ss.date.toString().equals(today.toString()) && ss.timeslot.start.before(now) && ss.timeslot.end.after(now)}">
                                                                      bg-yellow
                                                                  </c:if>
                                                                  padding-5px-tb padding-15px-lr border-radius-5 margin-10px-bottom text-white font-size16 xs-font-size13">${ss.group.course.id}</div>

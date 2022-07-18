@@ -35,33 +35,67 @@ public class AttendanceReportController extends BaseRequiredAuthenticationContro
             request.setAttribute("groups", groups);
             request.getRequestDispatcher("view/AttendanceReport.jsp").forward(request, response);
         } else {
+            String Session = request.getParameter("Session");
             int groupID = Integer.parseInt(GroupID);
             DBContextGroup dbg = new DBContextGroup();
             Group group = dbg.get(groupID);
-            DBContextStudent dbst = new DBContextStudent();
-            ArrayList<Student> students = dbst.listByGroup(group.getName(), group.getCourse().getId());
-            DBContextSession dbss = new DBContextSession();
-            ArrayList<Session> sessions = dbss.listByGroup(groupID);
 
-            DBContextAttendance dba = new DBContextAttendance();
-            ArrayList<Attendance> atds = dba.listByGroup(groupID);
-            
-            ArrayList<Integer> percents = new ArrayList<>();
-            for (int i = 0; i < students.size(); i++) {
-                int absent = 0;
-                int total = atds.size() / students.size();
-                for (int j = 0; j < atds.size(); j++)
-                    if (atds.get(j).getStudent().getId().equals(students.get(i).getId()) && atds.get(j).getStatus().equals("Absent"))
-                        absent++;
-                percents.add((int)(Math.ceil(absent * 100.0 / total)));
+            if (Session == null) {
+                DBContextSession dbss = new DBContextSession();
+                ArrayList<Session> sessions = dbss.listByGroup(groupID);
+                DBContextAttendance dbat = new DBContextAttendance();
+                for (int i = 0; i < sessions.size(); i++) {
+                    if (dbat.list(sessions.get(i).getId()).isEmpty()) {
+                        sessions.remove(i);
+                        i--;
+                    }
+                }
+                
+                
+                request.setAttribute("group", group);
+                request.setAttribute("sessions", sessions);
+                request.getRequestDispatcher("view/GroupAttendance.jsp").forward(request, response);
+            } else {
+                if (Session.equals("All")) {
+                    DBContextStudent dbst = new DBContextStudent();
+                    ArrayList<Student> students = dbst.listByGroup(group.getName(), group.getCourse().getId());
+                    DBContextSession dbss = new DBContextSession();
+                    ArrayList<Session> sessions = dbss.listByGroup(groupID);
+
+                    DBContextAttendance dba = new DBContextAttendance();
+                    ArrayList<Attendance> atds = dba.listByGroup(groupID);
+
+                    ArrayList<Integer> percents = new ArrayList<>();
+                    for (int i = 0; i < students.size(); i++) {
+                        int absent = 0;
+                        int total = atds.size() / students.size();
+                        for (int j = 0; j < atds.size(); j++) {
+                            if (atds.get(j).getStudent().getId().equals(students.get(i).getId()) && atds.get(j).getStatus().equals("Absent")) {
+                                absent++;
+                            }
+                        }
+                        percents.add((int) (Math.ceil(absent * 100.0 / total)));
+                    }
+
+                    request.setAttribute("group", group);
+                    request.setAttribute("students", students);
+                    request.setAttribute("sessions", sessions);
+                    request.setAttribute("atds", atds);
+                    request.setAttribute("percents", percents);
+                    request.getRequestDispatcher("view/GroupAttendanceReport.jsp").forward(request, response);
+                } else {
+                    int sessionID = Integer.parseInt(Session);
+                    DBContextSession dbss = new DBContextSession();
+                    Session session = dbss.get(sessionID);
+                    
+                    DBContextAttendance dbat = new DBContextAttendance();
+                    ArrayList<Attendance> atds = dbat.list(sessionID);
+                    request.setAttribute("session", session);
+                    request.setAttribute("atds", atds);
+                    request.getRequestDispatcher("view/SessionAttendanceReport.jsp").forward(request, response);
+                }
             }
 
-            request.setAttribute("group", group);
-            request.setAttribute("students", students);
-            request.setAttribute("sessions", sessions);
-            request.setAttribute("atds", atds);
-            request.setAttribute("percents", percents);
-            request.getRequestDispatcher("view/GroupAttendanceReport.jsp").forward(request, response);
         }
     }
 

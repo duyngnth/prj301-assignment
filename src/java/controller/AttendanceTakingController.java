@@ -11,7 +11,6 @@ import dal.DBContextSession;
 import dal.DBContextStudent;
 import java.io.IOException;
 import jakarta.servlet.ServletException;
-import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import java.sql.Date;
@@ -35,8 +34,8 @@ public class AttendanceTakingController extends BaseRequiredAuthenticationContro
         Time now = Time.valueOf((new Time(System.currentTimeMillis()).toString()));
 
         // Fake current time
-//        Date date = Date.valueOf("2022-07-15");
-//        Time now = Time.valueOf("15:00:00");
+        //Date date = Date.valueOf("2022-07-15");
+        // now = Time.valueOf("15:00:00");
 
         String SessionID = request.getParameter("SessionID");
 

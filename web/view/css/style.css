@@ -112,3 +112,6 @@ body{
     vertical-align: top;
     border-top: 1px solid #dee2e6;
 }
+td {
+    font-weight: initial;
+}

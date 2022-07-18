@@ -22,7 +22,7 @@ public class ViewFilter implements Filter {
     @Override
     public void doFilter(ServletRequest sr, ServletResponse sr1, FilterChain fc) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) sr;
-        if (request.getRequestURI().contains("Image"))
+        if (request.getRequestURI().contains("Image") || request.getRequestURI().contains("css"))
             fc.doFilter(sr, sr1);
         else
             sr1.getWriter().println("<!DOCTYPE html>\n"

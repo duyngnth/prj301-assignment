@@ -74,12 +74,4 @@
         <url-pattern>/AttendanceTaking</url-pattern>
         <url-pattern>/AttendanceReport</url-pattern>
     </filter-mapping>
-    <filter>
-        <filter-name>ViewFilter</filter-name>
-        <filter-class>filter.ViewFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>ViewFilter</filter-name>
-        <url-pattern>/view/*</url-pattern>
-    </filter-mapping>
 </web-app>

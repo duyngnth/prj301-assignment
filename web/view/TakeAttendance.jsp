@@ -48,7 +48,7 @@
                                 </td>
                                 <td class="text-left">
                                     <input required type="radio" name="status${st.id}" value="Attended">Present<br>
-                                    <input required type="radio" name="status${st.id}" value="Absent">Absent
+                                    <input required type="radio" name="status${st.id}" value="Absent" checked="checked">Absent
                                 </td>
                                 <td class="text-center">
                                     <input type="text" name="comment${st.id}">

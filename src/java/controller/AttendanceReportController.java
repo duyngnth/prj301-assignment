@@ -43,14 +43,6 @@ public class AttendanceReportController extends BaseRequiredAuthenticationContro
             if (Session == null) {
                 DBContextSession dbss = new DBContextSession();
                 ArrayList<Session> sessions = dbss.listByGroup(groupID);
-                DBContextAttendance dbat = new DBContextAttendance();
-                for (int i = 0; i < sessions.size(); i++) {
-                    if (dbat.list(sessions.get(i).getId()).isEmpty()) {
-                        sessions.remove(i);
-                        i--;
-                    }
-                }
-                
                 
                 request.setAttribute("group", group);
                 request.setAttribute("sessions", sessions);

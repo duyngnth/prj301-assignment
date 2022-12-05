@@ -9,6 +9,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import model.Attendance;
+import model.Student;
+import model.Session;
 
 /**
  *
@@ -25,7 +27,8 @@ public class DBContextAttendance extends DBContext<Attendance> {
         ArrayList<Attendance> atds = new ArrayList<>();
         connection = getConnection();
         try {
-            String sql = "SELECT [StudentID], [SessionID], [Status] FROM Attendance\n"
+            String sql = "SELECT a.[StudentID], s.Surname, s.MiddleName, s.GivenName, a.[SessionID], a.[Status] FROM Attendance a\n"
+                    + "JOIN [Student] s ON a.StudentID = s.StudentID\n"
                     + "WHERE [SessionID] IN (SELECT [SessionID] FROM [Session]\n"
                     + "WHERE [GroupID] = ?)";
             PreparedStatement stmt = connection.prepareStatement(sql);
@@ -33,10 +36,17 @@ public class DBContextAttendance extends DBContext<Attendance> {
             ResultSet rs = stmt.executeQuery();
             while (rs.next()) {
                 Attendance atd = new Attendance();
-                DBContextStudent dbst = new DBContextStudent();
-                atd.setStudent(dbst.get(rs.getString("StudentID")));
-                DBContextSession dbss = new DBContextSession();
-                atd.setSession(dbss.get(rs.getInt("SessionID")));
+                Student s = new Student();
+                s.setId(rs.getString("StudentID"));
+                s.setSurname(rs.getNString("Surname"));
+                s.setMiddleName(rs.getNString("MiddleName"));
+                s.setGivenName(rs.getNString("GivenName"));
+                atd.setStudent(s);
+                
+                Session ss = new Session();
+                ss.setId(rs.getInt("SessionID"));
+                atd.setSession(ss);
+                
                 atd.setStatus(rs.getString("Status"));
                 atds.add(atd);
             }

@@ -31,12 +31,12 @@ public class WeeklyScheduleController extends BaseRequiredAuthenticationControll
         calendar.setTimeInMillis(System.currentTimeMillis());
         int year = calendar.get(Calendar.YEAR);
         
-        Date date = new Date(System.currentTimeMillis());
-        Time now = Time.valueOf((new Time(System.currentTimeMillis()).toString()));
+//        Date date = new Date(System.currentTimeMillis());
+//        Time now = Time.valueOf((new Time(System.currentTimeMillis()).toString()));
 
         // Fake current time
-        //Date date = Date.valueOf("2022-07-01");
-        //Time now = Time.valueOf("15:00:00");
+        Date date = Date.valueOf("2022-05-23");
+        Time now = Time.valueOf("15:00:00");
         
         WeekContext wctx = new WeekContext();
         ArrayList<Week> weeks = wctx.list(year);
@@ -69,13 +69,13 @@ public class WeeklyScheduleController extends BaseRequiredAuthenticationControll
     @Override
     protected void processPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         int index = Integer.parseInt(request.getParameter("index"));
-        Date date = new Date(System.currentTimeMillis());
+        //Date date = new Date(System.currentTimeMillis());
         int year = Integer.parseInt(request.getParameter("year"));
-        Time now = Time.valueOf((new Time(System.currentTimeMillis()).toString()));
+        //Time now = Time.valueOf((new Time(System.currentTimeMillis()).toString()));
 
         // Fake current time
-//        Date date = Date.valueOf("2022-07-13");
-//        Time now = Time.valueOf("15:00:00");
+        Date date = Date.valueOf("2022-05-23");
+        Time now = Time.valueOf("15:00:00");
         WeekContext wctx = new WeekContext();
         ArrayList<Week> weeks = wctx.list(year);
         Week selectedWeek = weeks.get(index);
